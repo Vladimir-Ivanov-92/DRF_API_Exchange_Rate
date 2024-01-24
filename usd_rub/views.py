@@ -1,7 +1,7 @@
 from rest_framework import generics
 
-from .serializers import UsdRubSerializer
 from .models import UsdRub
+from .serializers import UsdRubSerializer
 
 
 class UsdRubView(generics.ListAPIView):

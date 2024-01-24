@@ -1,13 +1,15 @@
+import logging
 import time
+
 import requests
 from celery import shared_task
 
 from config import APP_ID
+
 from .models import UsdRub
 
-import logging
-
 logger = logging.getLogger(__name__)
+
 
 @shared_task
 def get_current_usd_task() -> None:

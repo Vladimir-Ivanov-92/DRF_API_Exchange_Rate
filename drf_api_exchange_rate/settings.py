@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 
 from pathlib import Path
 
-from config import DEBUG, SECRET_KEY, REDIS_HOST, REDIS_PORT
+from config import DEBUG, REDIS_HOST, REDIS_PORT, SECRET_KEY
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
