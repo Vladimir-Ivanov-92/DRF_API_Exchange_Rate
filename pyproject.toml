@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "drf-api-exchange-rate"
+version = "0.1.0"
+description = ""
+authors = ["vova2092 <vovai2092@yandex.ru>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+django = "^5.0.1"
+djangorestframework = "^3.14.0"
+requests = "^2.31.0"
+celery = "^5.3.6"
+redis = "^5.0.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
