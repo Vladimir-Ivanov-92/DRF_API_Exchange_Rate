@@ -8,4 +8,4 @@ class UsdRubSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = UsdRub
-        fields = ('pk', 'time', 'value')
+        fields = ('time', 'value')

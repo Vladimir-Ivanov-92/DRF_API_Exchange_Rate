@@ -8,5 +8,5 @@ class UsdRubView(generics.ListAPIView):
     """
     Outputs a list of the last 10 exchange rate values starting from the most current one
     """
-    queryset = UsdRub.objects.order_by('-pk')[:10]
+    queryset = UsdRub.objects.order_by('-pk')[:11]
     serializer_class = UsdRubSerializer
