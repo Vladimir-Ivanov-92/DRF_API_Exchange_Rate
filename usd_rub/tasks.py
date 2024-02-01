@@ -1,10 +1,9 @@
 import logging
 import time
 
+from django.conf import settings
 import requests
 from celery import shared_task
-
-from config import APP_ID
 
 from .models import UsdRub
 
@@ -18,8 +17,7 @@ def get_current_usd_task() -> None:
     """
     while True:
         try:
-            data = requests.get(
-                f'https://openexchangerates.org/api/latest.json?app_id={APP_ID}&base=USD&symbols=RUB').json()
+            data = requests.get(settings.API_EXCHANGE_RATE).json()
             UsdRub.objects.create(value=data['rates']['RUB'])
             time.sleep(10)
         except Exception as e:

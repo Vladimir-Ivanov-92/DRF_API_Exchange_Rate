@@ -1,10 +1,11 @@
 from datetime import datetime
 
 import requests
+from django.conf import settings
 from rest_framework import generics
 from rest_framework.response import Response
 
-from config import APP_ID
+from config import NUM_QUERY, CURRENCY_2
 
 from .models import UsdRub
 from .serializers import UsdRubSerializer
@@ -12,17 +13,35 @@ from .serializers import UsdRubSerializer
 
 class UsdRubView(generics.ListAPIView):
     """
-    Outputs a list of the last 10 exchange rate values starting from the most current one
+        Предоставляет данные о текущем курсе USD/RUB и 10 последних полученных значений
+    курса в JSON:
+
+    {
+        "current_rate": 89.766607,
+        "time": "2024-01-01 15:46:54",
+        "last_10_rates": [
+                {
+                    "index": 1,
+                    "time": "2024-01-01 15:25:30",
+                    "value": 89.786533
+                },
+                ...
+                {
+                    "index": 10,
+                    "time": "2024-01-01 15:23:54",
+                    "value": 89.766234
+                }
+            ]
+    }
     """
-    queryset = UsdRub.objects.order_by('-pk')[:10]
+    queryset = UsdRub.objects.order_by('-pk')[:NUM_QUERY]
     serializer_class = UsdRubSerializer
 
     def get(self, request, *args, **kwargs) -> Response:
         result = {}
-        # get data from API
-        data = requests.get(
-            f'https://openexchangerates.org/api/latest.json?app_id={APP_ID}&base=USD&symbols=RUB').json()
-        result['current_rate'] = data['rates']['RUB']
+        # получение данных о курсе через API openexchangerates.org
+        data = requests.get(settings.API_EXCHANGE_RATE).json()
+        result['current_rate'] = data['rates'][CURRENCY_2]
         result['time'] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
         # get data from serializer

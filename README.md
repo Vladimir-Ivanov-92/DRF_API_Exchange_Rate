@@ -44,6 +44,7 @@ api/v1/get-current-usd/ - в json формате выводится информ
 - celery v5.3.6
 - redis v5.0.1
 - requests v2.31
+- python-dotenv v1.0.1
 
 ## Настройка и запуск:
 
