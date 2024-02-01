@@ -10,7 +10,7 @@ api/v1/get-current-usd/ - в json формате выводится информ
 {
     "current_rate": 89.766607,
     "time": "2024-01-01 15:46:54",
-    "last_10_rates": [
+    "last_rates": [
         {
             "index": 1,
             "time": "2024-01-01 15:25:30",
@@ -45,6 +45,7 @@ api/v1/get-current-usd/ - в json формате выводится информ
 - redis v5.0.1
 - requests v2.31
 - python-dotenv v1.0.1
+- pydantic v2.6
 
 ## Настройка и запуск:
 

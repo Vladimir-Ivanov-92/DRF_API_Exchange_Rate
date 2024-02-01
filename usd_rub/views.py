@@ -1,14 +1,12 @@
-from datetime import datetime
-
-import requests
 from django.conf import settings
 from rest_framework import generics
 from rest_framework.response import Response
 
-from config import NUM_QUERY, CURRENCY_2
+from config import NUM_QUERY
 
 from .models import UsdRub
 from .serializers import UsdRubSerializer
+from .services import CurrentRate, get_data_from_api_exchange
 
 
 class UsdRubView(generics.ListAPIView):
@@ -38,16 +36,21 @@ class UsdRubView(generics.ListAPIView):
     serializer_class = UsdRubSerializer
 
     def get(self, request, *args, **kwargs) -> Response:
-        result = {}
         # получение данных о курсе через API openexchangerates.org
-        data = requests.get(settings.API_EXCHANGE_RATE).json()
-        result['current_rate'] = data['rates'][CURRENCY_2]
-        result['time'] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        current_rate_data: CurrentRate = get_data_from_api_exchange(
+            settings.API_EXCHANGE_RATE)
 
-        # get data from serializer
-        serializer = self.get_serializer(self.get_queryset(), many=True)
-        serialized_data = [{"index": index + 1, **item} for index, item in
-                           enumerate(serializer.data)]
-        result['last_10_rates'] = serialized_data
+        # получение данных из serializer
+        serializer_data = (self.get_serializer(self.get_queryset(), many=True)).data
+
+        # добавление индекса к каждому прошлому значению курса
+        previous_values = [{"index": index + 1, **item} for index, item in
+                           enumerate(serializer_data)]
+
+        result = dict(
+            current_rate=current_rate_data.current_rate,
+            time=current_rate_data.time,
+            last_rates=previous_values
+        )
 
         return Response(result)

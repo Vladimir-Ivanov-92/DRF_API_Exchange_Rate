@@ -11,8 +11,8 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 from pathlib import Path
 
-from config import DEBUG, REDIS_HOST, REDIS_PORT, SECRET_KEY, APP_ID, CURRENCY_1, \
-    CURRENCY_2
+from config import (APP_ID, CURRENCY_1, CURRENCY_2, DEBUG, REDIS_HOST,
+                    REDIS_PORT, SECRET_KEY)
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
